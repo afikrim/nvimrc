@@ -36,6 +36,13 @@ return {
       "kristijanhusak/vim-dadbod-ui",
       { "kristijanhusak/vim-dadbod-completion", ft = sql_ft },
     },
+    keys = {
+      { "<leader>D", "", desc = "+DB" },
+      { "<leader>Du", "<cmd>DBUI<cr>", desc = "Open the DB UI" },
+      { "<leader>Dt", "<cmd>DBUIToggle<cr>", desc = "Toggle the DB UI" },
+      { "<leader>Da", "<cmd>DBUIAddConnection<cr>", desc = "Add connection to DB UI" },
+      { "<leader>Df", "<cmd>DBUIFindBuffer<cr>", desc = "Find buffer in DB UI" },
+    },
     init = function()
       vim.g.db_ui_save_location = vim.fn.stdpath("data") .. "/db_ui"
       vim.g.db_ui_use_nerd_fonts = true

@@ -57,11 +57,14 @@ return {
     },
   },
 
-  -- Configure LazyVim to load catppuccin
   {
-    "LazyVim/LazyVim",
+    "tokyonight.nvim",
     opts = {
-      colorscheme = "catppuccin",
+      transparent = true,
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
     },
   },
 }
