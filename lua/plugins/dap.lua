@@ -1,38 +1,20 @@
 return {
   {
-    "microsoft/vscode-js-debug",
-    opt = true, -- Set this to true if you want to lazy-load the plugin
-    event = "VeryLazy",
-    build = function()
-      local current_dir = vim.fn.getcwd()
-
-      vim.fn.chdir(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug")
-      -- Define the commands to run after the plugin is installed
-      vim.fn.system("npm install --legacy-peer-deps")
-      vim.fn.system("npx gulp vsDebugServerBundle")
-      vim.fn.system("mv dist out")
-
-      vim.fn.chdir(current_dir)
-    end,
-  },
-  {
-    "mxsdev/nvim-dap-vscode-js",
-    opts = {
-      node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-      debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug", -- Path to vscode-js-debug installation.
-      -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
-      adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
-      -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
-      -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
-      -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
-    },
-  },
-  {
     "mfussenegger/nvim-dap",
     optional = true,
     opts = function()
       local dap = require("dap")
       local dap_utils = require("dap.utils")
+
+      dap.adapters["pwa-node"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+          command = "node",
+          args = { os.getenv("HOME") .. "/.local/share/js-debug/src/dapDebugServer.js", "${port}" },
+        },
+      }
 
       local exts = {
         "javascript",
@@ -129,28 +111,6 @@ return {
             smartStep = true,
             console = "integratedTerminal",
             skipFiles = { "<node_internals>/**", "node_modules/**" },
-          },
-          {
-            type = "pwa-chrome",
-            request = "launch",
-            name = "Launch Program (pwa-chrome, select port)",
-            cwd = vim.fn.getcwd(),
-            console = "integratedTerminal",
-            url = function()
-              return vim.fn.input("Set URL: ", "http://localhost:3000")
-            end,
-          },
-          {
-            type = "pwa-chrome",
-            request = "attach",
-            name = "Attach Program (pwa-chrome, select port)",
-            program = "${file}",
-            cwd = vim.fn.getcwd(),
-            sourceMaps = true,
-            port = function()
-              return vim.fn.input("Select port: ", 9222)
-            end,
-            webRoot = "${workspaceFolder}",
           },
           {
             type = "pwa-node",

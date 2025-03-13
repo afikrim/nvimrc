@@ -16,3 +16,9 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.expandtab = false -- Use tabs instead of spaces
   end,
 })
+
+vim.api.nvim_create_autocmd("BufRead", {
+  pattern = "*.http",
+  command = "set filetype=http",
+  group = augroup("filetype_http"),
+})
