@@ -1,7 +1,5 @@
 {
   "extras": [
-    "lazyvim.plugins.extras.ai.copilot",
-    "lazyvim.plugins.extras.ai.copilot-chat",
     "lazyvim.plugins.extras.coding.nvim-cmp",
     "lazyvim.plugins.extras.lang.docker"
   ],
@@ -10,3 +8,4 @@
   },
   "version": 8
 }
+

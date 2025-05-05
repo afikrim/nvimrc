@@ -3,3 +3,5 @@
 -- Add any additional options here
 
 vim.g.mapleader = ","
+
+vim.g.snacks_animate = false
